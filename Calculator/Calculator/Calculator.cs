@@ -14,7 +14,7 @@ namespace Calculator
             }
             string[] s = input.Split(',');
 
-            foreach(var num in s)
+            foreach(var num in s)    // Removed 2 number constraint from Step # 1
             {
                 result += ParseNumber(num.Trim());
             }
