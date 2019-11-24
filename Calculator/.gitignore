@@ -1,0 +1,7 @@
+# ignore .vs
+.vs/*
+# ignore all bin and obj folder(s)
+Calculator/bin/*
+Calculator/obj/*
+Calculator.Tests/bin/*
+Calculator.Tests/obj/*

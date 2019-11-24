@@ -7,21 +7,19 @@ namespace Calculator
     {
         public int AddNumbers(string input)
         {
+            int result = 0;
             if (String.IsNullOrEmpty(input))
             {
                 return 0;
             }
             string[] s = input.Split(',');
 
-            if(s.Length > 2)
+            foreach(var num in s)
             {
-                throw new Exception("Calculator only accepts 2 numbers at a time");
+                result += ParseNumber(num.Trim());
             }
 
-            int num1 = ParseNumber(s[0]);      
-            int num2 = s.Length == 2 ? ParseNumber(s[1]) : 0;
-
-            return num1 + num2;
+            return result;
         }
 
         //Returns integer as required for the string
