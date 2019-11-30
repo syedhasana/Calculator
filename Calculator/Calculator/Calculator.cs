@@ -12,7 +12,7 @@ namespace Calculator
             {
                 return 0;
             }
-            string[] s = input.Split(',');
+            string[] s = input.Split(',', '\n');     // dividing string on both comma and newline character(s)
 
             foreach(var num in s)    // Removed 2 number constraint from Step # 1
             {
@@ -29,6 +29,7 @@ namespace Calculator
             {
                 return 0;
             }
+
             return int.Parse(number);
         }
         static void Main(string[] args)
