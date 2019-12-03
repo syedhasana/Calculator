@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Text.RegularExpressions;
 
 namespace Calculator
@@ -12,24 +13,37 @@ namespace Calculator
             {
                 return 0;
             }
+
             string[] s = input.Split(',', '\n');     // dividing string on both comma and newline character(s)
 
-            foreach(var num in s)    // Removed 2 number constraint from Step # 1
+            List<string> negativeNumbers = new List<string>();
+
+            foreach (var num in s)    // Removed 2 number constraint from Step # 1
             {
-                result += ParseNumber(num.Trim());
+                result += ParseNumber(num.Trim(), ref negativeNumbers);
+            }
+
+            if(negativeNumbers.Count > 0)
+            {
+                throw new Exception(string.Format("Negative numbers '{0}' are not allowed", string.Join(",", negativeNumbers)));
             }
 
             return result;
         }
 
         //Returns integer as required for the string
-        int ParseNumber(string number)
+        int ParseNumber(string number, ref List<string> negativeNumbers)
         {
             if (String.IsNullOrEmpty(number) || !Regex.IsMatch(number, @"^-*\d+$"))
             {
                 return 0;
             }
 
+            if(Regex.IsMatch(number, @"[-]\d+$"))
+            {
+                negativeNumbers.Add(number);
+                return 0;
+            }
             return int.Parse(number);
         }
         static void Main(string[] args)
