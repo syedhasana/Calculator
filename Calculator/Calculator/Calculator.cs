@@ -44,7 +44,9 @@ namespace Calculator
                 negativeNumbers.Add(number);
                 return 0;
             }
-            return int.Parse(number);
+
+            var num = int.Parse(number);
+            return num > 1000 ? 0 : num;
         }
         static void Main(string[] args)
         {

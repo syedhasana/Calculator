@@ -17,7 +17,7 @@ namespace Calculator.Tests
             calc = new Calculator();
         }
 
-        [TestCase("1,5000", 5001)]
+        [TestCase("1,500", 501)]
         [TestCase("4, 6", 10)]
         [TestCase("20", 20)]
         [TestCase("3,4", 7)]
@@ -37,6 +37,12 @@ namespace Calculator.Tests
         [TestCase("5\n6", 11)]
         [TestCase("5\n6\nh4,a,3", 14)]
         [TestCase("5\n6\n2,3,10\n5,3", 34)]
+        [TestCase(",,", 0)]
+        [TestCase("1001", 0)]
+        [TestCase(",1002", 0)]
+        [TestCase(",1003,", 0)]
+        [TestCase("2,1000,6", 1008)]
+        [TestCase("2,1001,6", 8)]
         public void Adding_Two_Numbers(string input, int output)
         {
             Assert.AreEqual(calc.AddNumbers(input), output);
