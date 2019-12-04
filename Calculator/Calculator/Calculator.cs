@@ -10,29 +10,41 @@ namespace Calculator
         {
             int result = 0;
             var str = input;
-            char customDelimiter = '\0';
+            string customDelimiter = null;
 
             if (String.IsNullOrEmpty(input))
             {
                 return 0;
             }
 
-            string delimiterString = Regex.Match(input, @"//.\n").Value;
+            string delimiterString = Regex.Match(input, @"//[[]?.*[]]?\n").Value;
 
             if (!String.IsNullOrEmpty(delimiterString))
             {
-                customDelimiter = (char)delimiterString.Split("//")[1][0];
-                string[] relevantString = Regex.Split(input, @"//.\n");
+                if (!String.IsNullOrEmpty(Regex.Match(delimiterString, @"[[].*[]]").Value))    
+                {
+                    customDelimiter = delimiterString.Split('[', ']')[1];       // customr delimiter of any length
+                }
+                else
+                {
+                    customDelimiter = delimiterString.Split('\n')[0].TrimStart('/');  // customr delimiter of single character
+                }
+                string[] relevantString = Regex.Split(input, @"//[[]?.*[]]?\n");
                 str = relevantString[1];
             }
 
-            string[] s = str.Split(',', '\n', customDelimiter);     // dividing string on both comma and newline character(s)
+            string[] s = str.Split(customDelimiter);     // dividing string first by custom delimiter for correctness
+
 
             List<string> negativeNumbers = new List<string>();
 
             foreach (var num in s)    // Removed 2 number constraint from Step # 1
             {
-                result += ParseNumber(num.Trim(), ref negativeNumbers);
+                string[] numbers = num.Split(',', '\n'); // further dividing each custom delmited strings by comma and newline character
+                foreach (var number in numbers)
+                {
+                    result += ParseNumber(number.Trim(), ref negativeNumbers);
+                }
             }
 
             if(negativeNumbers.Count > 0)
