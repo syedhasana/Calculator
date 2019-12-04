@@ -9,12 +9,24 @@ namespace Calculator
         public int AddNumbers(string input)
         {
             int result = 0;
+            var str = input;
+            char customDelimiter = '\0';
+
             if (String.IsNullOrEmpty(input))
             {
                 return 0;
             }
 
-            string[] s = input.Split(',', '\n');     // dividing string on both comma and newline character(s)
+            string delimiterString = Regex.Match(input, @"//.\n").Value;
+
+            if (!String.IsNullOrEmpty(delimiterString))
+            {
+                customDelimiter = (char)delimiterString.Split("//")[1][0];
+                string[] relevantString = Regex.Split(input, @"//.\n");
+                str = relevantString[1];
+            }
+
+            string[] s = str.Split(',', '\n', customDelimiter);     // dividing string on both comma and newline character(s)
 
             List<string> negativeNumbers = new List<string>();
 

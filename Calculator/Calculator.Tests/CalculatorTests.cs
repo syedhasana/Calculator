@@ -43,6 +43,11 @@ namespace Calculator.Tests
         [TestCase(",1003,", 0)]
         [TestCase("2,1000,6", 1008)]
         [TestCase("2,1001,6", 8)]
+        [TestCase("//#\n2#5", 7)]
+        [TestCase("//#\n2#5#7,9", 23)]
+        [TestCase("//.\n0.5.45,9", 59)]
+        [TestCase("//\n\n4\n5\n9,10", 28)]
+        [TestCase("//r\n1r3r8,6gghj,10r20", 42)]
         public void Adding_Two_Numbers(string input, int output)
         {
             Assert.AreEqual(calc.AddNumbers(input), output);
