@@ -52,6 +52,9 @@ namespace Calculator.Tests
         [TestCase("//[v,rt]\n11v,rt22v,rt33,9,\n12", 87)]
         [TestCase("//[aaa]\n0aaa5aaa45aaa9", 59)]
         [TestCase("//[|||||]\n4\n5|||||9|||||10,7\n3|||||8", 46)]
+        [TestCase("//[!!][r9r]\n11r9r22\nhh,33!!44", 110)]
+        [TestCase("//[*][!!][r9r]\n11r9r22*hh*33!!44", 110)]
+        [TestCase("//[w][!!][r9r][abc][****]\n11r9r22****hh!!33\n44w1abc5,8", 124)]
         public void Adding_Two_Numbers(string input, int output)
         {
             Assert.AreEqual(calc.AddNumbers(input), output);

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.RegularExpressions;
+using System.Linq;
 
 namespace Calculator
 {
@@ -10,30 +11,30 @@ namespace Calculator
         {
             int result = 0;
             var str = input;
-            string customDelimiter = null;
+            List<string> customDelimiters = new List<string>();
 
             if (String.IsNullOrEmpty(input))
             {
                 return 0;
             }
 
-            string delimiterString = Regex.Match(input, @"//[[]?.*[]]?\n").Value;
+            string delimiterString = Regex.Match(input, @"//(([[].*[]])*|.)\n").Value;  //multiple custom delimiters of any length
 
             if (!String.IsNullOrEmpty(delimiterString))
             {
-                if (!String.IsNullOrEmpty(Regex.Match(delimiterString, @"[[].*[]]").Value))    
+                if (!String.IsNullOrEmpty(Regex.Match(delimiterString, @"([[].*[]])+").Value))    // one or more customr delimiters of any length
                 {
-                    customDelimiter = delimiterString.Split('[', ']')[1];       // customr delimiter of any length
+                    customDelimiters = delimiterString.TrimStart('/').Split('[', ']').Where(x => !String.IsNullOrEmpty(x)).ToList();
                 }
                 else
                 {
-                    customDelimiter = delimiterString.Split('\n')[0].TrimStart('/');  // customr delimiter of single character
+                    customDelimiters.Add(delimiterString.Split('\n')[0].TrimStart('/'));  // customr delimiter of single character
                 }
                 string[] relevantString = Regex.Split(input, @"//[[]?.*[]]?\n");
                 str = relevantString[1];
             }
 
-            string[] s = str.Split(customDelimiter);     // dividing string first by custom delimiter for correctness
+            string[] s = str.Split(customDelimiters.ToArray(), StringSplitOptions.None);     // dividing string first by custom delimiter(s) for correctness
 
 
             List<string> negativeNumbers = new List<string>();
@@ -72,7 +73,7 @@ namespace Calculator
             var num = int.Parse(number);
             return num > 1000 ? 0 : num;
         }
-        static void Main(string[] args)
+        static void Main()
         {
             Calculator calc = new Calculator();
             Console.Write("Calculator Input String: ");
