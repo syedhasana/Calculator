@@ -10,11 +10,17 @@ namespace Calculator.Tests
     public class Tests
     {
         Calculator calc;
+        Calculator calc1;
+        Calculator calc2;
+        Calculator calc3;
 
         [SetUp]
         public void Setup()
         {
-            calc = new Calculator();
+            calc = new Calculator('\n', false, 1000);
+            calc1 = new Calculator('g', false, 1000);
+            calc2 = new Calculator('\n', true, 1000);
+            calc3 = new Calculator('\n', false, null);
         }
 
         [TestCase("1,500", "1+500 = 501")]
@@ -74,21 +80,21 @@ namespace Calculator.Tests
         [TestCase("1,500g6", "1+500+6 = 507")]
         public void Adding_Two_Numbers_With_AlternateDelimiter(string input, string output)
         {
-            Assert.AreEqual(calc.AddNumbers(input, 'g'), output);
+            Assert.AreEqual(calc1.AddNumbers(input), output);
         }
 
         [TestCase("1,500,-400", "1+500+(-400) = 101")]
         [TestCase("1,-1", "1+(-1) = 0")]
         public void Adding_Two_Numbers_With_NegativeNumbers(string input, string output)
         {
-            Assert.AreEqual(calc.AddNumbers(input,'\n',true), output);
+            Assert.AreEqual(calc2.AddNumbers(input), output);
         }
 
         [TestCase("1,5000", "1+5000 = 5001")]
         [TestCase("1,6000", "1+6000 = 6001")]
         public void Adding_Two_Numbers_With_UpperBound(string input, string output)
         {
-            Assert.AreEqual(calc.AddNumbers(input,'\n',false,null), output);
+            Assert.AreEqual(calc3.AddNumbers(input), output);
         }
 
     }

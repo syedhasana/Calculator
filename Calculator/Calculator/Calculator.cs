@@ -7,7 +7,22 @@ namespace Calculator
 {
     public class Calculator
     {
-        public string AddNumbers(string input, char alternateDelimiter = '\n', bool allowNegativeNum = false, int? upperBound = 1000)
+        char alternateDelimiter = '\n';
+        bool allowNegativeNum = false;
+        int? upperBound = null;
+
+        public Calculator()
+        {
+
+        }
+
+        public Calculator(char delimiter, bool negativeNumberAllowed, int? upperLimit)
+        {
+            alternateDelimiter = delimiter;
+            allowNegativeNum = negativeNumberAllowed;
+            upperBound = upperLimit;
+        } 
+        public string AddNumbers(string input)
         {
             if (String.IsNullOrEmpty(input))
             {
@@ -21,7 +36,7 @@ namespace Calculator
 
             foreach (var num in s)    // Removed 2 number constraint from Step # 1
             {
-                string[] numbers = num.Split(',', alternateDelimiter); // further dividing each custom delmited strings by comma and newline character
+                string[] numbers = num.Split(',', alternateDelimiter); // further dividing each custom delmited strings by comma and alternate character
                 foreach (var number in numbers)
                 {
                     var interpretedNum = ParseNumber(number.Trim(), ref negativeNumbers);
