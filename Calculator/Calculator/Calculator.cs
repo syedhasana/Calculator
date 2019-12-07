@@ -7,7 +7,7 @@ namespace Calculator
 {
     public class Calculator
     {
-        public string AddNumbers(string input)
+        public string AddNumbers(string input, char alternateDelimiter = '\n', bool allowNegativeNum = false, int? upperBound = 1000)
         {
             if (String.IsNullOrEmpty(input))
             {
@@ -21,16 +21,18 @@ namespace Calculator
 
             foreach (var num in s)    // Removed 2 number constraint from Step # 1
             {
-                string[] numbers = num.Split(',', '\n'); // further dividing each custom delmited strings by comma and newline character
+                string[] numbers = num.Split(',', alternateDelimiter); // further dividing each custom delmited strings by comma and newline character
                 foreach (var number in numbers)
                 {
                     var interpretedNum = ParseNumber(number.Trim(), ref negativeNumbers);
+                    interpretedNum = upperBound != null && interpretedNum > upperBound ? 0 : interpretedNum;
                     result += interpretedNum;
-                    interpretedNumbers = interpretedNumbers == null ? interpretedNum.ToString() : string.Format("{0}+{1}", interpretedNumbers, interpretedNum.ToString());
+                    interpretedNumbers = interpretedNumbers == null ? interpretedNum.ToString() : string.Format("{0}+{1}", interpretedNumbers, 
+                                                                          (interpretedNum < 0 ? string.Format("({0})", interpretedNum.ToString()) : interpretedNum.ToString()));
                 }
             }
 
-            if(negativeNumbers.Count > 0)
+            if(negativeNumbers.Count > 0 && !allowNegativeNum)
             {
                 throw new Exception(string.Format("Negative numbers '{0}' are not allowed", string.Join(",", negativeNumbers)));
             }
@@ -74,11 +76,10 @@ namespace Calculator
             if(Regex.IsMatch(number, @"[-]\d+$"))
             {
                 negativeNumbers.Add(number);
-                return 0;
             }
 
             var num = int.Parse(number);
-            return num > 1000 ? 0 : num;
+            return num;
         }
         static void Main()
         {

@@ -70,5 +70,26 @@ namespace Calculator.Tests
             List<string> negativeNumbers = numbers.Where(x => Regex.IsMatch(x, @"[-]\d+$")).ToList();
             Assert.AreEqual(string.Format("Negative numbers '{0}' are not allowed", string.Join(",", negativeNumbers)).Trim(), exception.Message.Trim());
         }
+
+        [TestCase("1,500g6", "1+500+6 = 507")]
+        public void Adding_Two_Numbers_With_AlternateDelimiter(string input, string output)
+        {
+            Assert.AreEqual(calc.AddNumbers(input, 'g'), output);
+        }
+
+        [TestCase("1,500,-400", "1+500+(-400) = 101")]
+        [TestCase("1,-1", "1+(-1) = 0")]
+        public void Adding_Two_Numbers_With_NegativeNumbers(string input, string output)
+        {
+            Assert.AreEqual(calc.AddNumbers(input,'\n',true), output);
+        }
+
+        [TestCase("1,5000", "1+5000 = 5001")]
+        [TestCase("1,6000", "1+6000 = 6001")]
+        public void Adding_Two_Numbers_With_UpperBound(string input, string output)
+        {
+            Assert.AreEqual(calc.AddNumbers(input,'\n',false,null), output);
+        }
+
     }
 }
