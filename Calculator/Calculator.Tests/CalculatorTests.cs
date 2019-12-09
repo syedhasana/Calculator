@@ -97,5 +97,44 @@ namespace Calculator.Tests
             Assert.AreEqual(calc3.AddNumbers(input), output);
         }
 
+        [TestCase("20", "20 = 20")]
+        [TestCase("3,4", "3-4 = -1")]
+        [TestCase("3,-4", "3-(-4) = 7")]
+        [TestCase("5,tyty", "5-0 = 5")]
+        [TestCase("5\n6", "5-6 = -1")]
+        [TestCase("//#\n2#5", "2-5 = -3")]
+        [TestCase("//#\n2#5#7,9", "2-5-7-9 = -19")]
+        [TestCase("//[|||||]\n4\n5|||||9|||||10,7\n3|||||8", "4-5-9-10-7-3-8 = -38")]
+        public void Subtracting_Two_Numbers(string input, string output)
+        {
+            Assert.AreEqual(calc2.SubtractNumbers(input), output);
+        }
+
+        [TestCase("20", "20 = 20")]
+        [TestCase("3,4", "3*4 = 12")]
+        [TestCase("3,-4", "3*(-4) = -12")]
+        [TestCase("-3,-4", "-3*(-4) = 12")]
+        [TestCase("5,tyty", "5*0 = 0")]
+        [TestCase("5\n6", "5*6 = 30")]
+        [TestCase("//#\n2#5", "2*5 = 10")]
+        [TestCase("//#\n2#5#7,9", "2*5*7*9 = 630")]
+        [TestCase("//[|||||]\n4\n5|||||9|||||10,7\n3|||||8", "4*5*9*10*7*3*8 = 302400")]
+        public void Multiplying_Two_Numbers(string input, string output)
+        {
+            Assert.AreEqual(calc2.MultiplyNumbers(input), output);
+        }
+
+        [TestCase("20", "20 = 20")]
+        [TestCase("4,2", "4/2 = 2")]
+        [TestCase("12,-4", "12/(-4) = -3")]
+        [TestCase("5,tyty", "5/0 = Cannout divide By Zero")]
+        [TestCase("6\n3", "6/3 = 2")]
+        [TestCase("//#\n10#5", "10/5 = 2")]
+        [TestCase("//#\n40#5#4,2", "40/5/4/2 = 1")]
+        [TestCase("//[|||||]\n100\n5|||||2|||||5,2", "100/5/2/5/2 = 1")]
+        public void  Dividing_Two_Numbers(string input, string output)
+        {
+            Assert.AreEqual(calc2.DivideNumbers(input), output);
+        }
     }
 }

@@ -22,40 +22,92 @@ namespace Calculator
             allowNegativeNum = negativeNumberAllowed;
             upperBound = upperLimit;
         } 
+
         public string AddNumbers(string input)
         {
-            if (String.IsNullOrEmpty(input))
+            return ProcessInput(input, '+');
+        }
+
+        public string SubtractNumbers(string input)
+        {
+            return ProcessInput(input, '-');
+        }
+        public string MultiplyNumbers(string input)
+        {
+            return ProcessInput(input, '*');
+        }
+        public string DivideNumbers(string input)
+        {
+            return ProcessInput(input, '/');
+        }
+
+        // Common function reused among Addition, subtraction, multiplication and division operations
+        string ProcessInput(string input, char operation)
+        {
+            if (String.IsNullOrEmpty(input))   // Empty or null input returns 0
             {
                 return "0";
             }
 
-            string interpretedNumbers = null;
-            int result = 0;
-            string[] s = ExtractOperands(input);
+            string interpretedNumbers = null;  //Parsed Numbers
+            int? result = null;
+            string[] operands = ExtractOperands(input);
             List<string> negativeNumbers = new List<string>();
 
-            foreach (var num in s)    // Removed 2 number constraint from Step # 1
+            bool divisionByZero = false;   //Handling case of Division By Zero
+            
+            foreach (var num in operands)    // Removed 2 number constraint from Step # 1
             {
                 string[] numbers = num.Split(',', alternateDelimiter); // further dividing each custom delmited strings by comma and alternate character
                 foreach (var number in numbers)
                 {
                     var interpretedNum = ParseNumber(number.Trim(), ref negativeNumbers);
                     interpretedNum = upperBound != null && interpretedNum > upperBound ? 0 : interpretedNum;
-                    result += interpretedNum;
-                    interpretedNumbers = interpretedNumbers == null ? interpretedNum.ToString() : string.Format("{0}+{1}", interpretedNumbers, 
+
+                    if (result == null)
+                    {
+                        result = interpretedNum;
+                    }
+
+                    else
+                    {
+                        switch (operation)
+                        {
+                            case '+':
+                                result += interpretedNum;
+                                break;
+                            case '-':
+                                result -= interpretedNum;
+                                break;
+                            case '*':
+                                result *= interpretedNum;
+                                break;
+                            case '/':
+                                if (interpretedNum == 0)
+                                {
+                                    divisionByZero = true;
+                                }
+                                if (!divisionByZero)
+                                {
+                                    result = result /= interpretedNum;
+                                }
+                                break;
+                        }
+                    }
+                    interpretedNumbers = interpretedNumbers == null ? interpretedNum.ToString() : string.Format("{0}{1}{2}", interpretedNumbers, operation.ToString(),
                                                                           (interpretedNum < 0 ? string.Format("({0})", interpretedNum.ToString()) : interpretedNum.ToString()));
                 }
             }
 
-            if(negativeNumbers.Count > 0 && !allowNegativeNum)
+            if (negativeNumbers.Count > 0 && !allowNegativeNum)
             {
                 throw new Exception(string.Format("Negative numbers '{0}' are not allowed", string.Join(",", negativeNumbers)));
             }
 
-            return string.Format("{0} = {1}", interpretedNumbers, result);
+            return string.Format("{0} = {1}", interpretedNumbers.Trim(), divisionByZero ? "Cannout divide By Zero" : (result == null ? "0" : result.ToString().Trim()));
         }
 
-        //Extracting Operands for calculation 
+        //Extracting Operands by custom delimiters for calculation 
         string[] ExtractOperands(string input)
         {
             var str = input;
@@ -96,6 +148,7 @@ namespace Calculator
             var num = int.Parse(number);
             return num;
         }
+
         static void Main()
         {
             Calculator calc = new Calculator();
