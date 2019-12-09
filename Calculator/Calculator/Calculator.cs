@@ -7,9 +7,9 @@ namespace Calculator
 {
     public class Calculator
     {
-        char alternateDelimiter = '\n';
-        bool allowNegativeNum = false;
-        int? upperBound = null;
+        readonly char alternateDelimiter = '\n';
+        readonly bool allowNegativeNum = false;
+        readonly int? upperBound = null;
 
         public Calculator()
         {

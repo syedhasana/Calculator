@@ -60,7 +60,7 @@ namespace Calculator.Tests
         [TestCase("//[!!][r9r]\n11r9r22\nhh,33!!44", "11+22+0+33+44 = 110")]
         [TestCase("//[*][!!][r9r]\n11r9r22*hh*33!!44", "11+22+0+33+44 = 110")]
         [TestCase("//[w][!!][r9r][abc][****]\n11r9r22****hh!!33\n44w1abc5,8", "11+22+0+33+44+1+5+8 = 124")]
-        public void Adding_Two_Numbers(string input, string output)
+        public void Adding_Numbers(string input, string output)
         {
             Assert.AreEqual(calc.AddNumbers(input), output);
         }
@@ -78,21 +78,21 @@ namespace Calculator.Tests
         }
 
         [TestCase("1,500g6", "1+500+6 = 507")]
-        public void Adding_Two_Numbers_With_AlternateDelimiter(string input, string output)
+        public void Adding_Numbers_With_AlternateDelimiter(string input, string output)
         {
             Assert.AreEqual(calc1.AddNumbers(input), output);
         }
 
         [TestCase("1,500,-400", "1+500+(-400) = 101")]
         [TestCase("1,-1", "1+(-1) = 0")]
-        public void Adding_Two_Numbers_With_NegativeNumbers(string input, string output)
+        public void Adding_Numbers_With_NegativeNumbers(string input, string output)
         {
             Assert.AreEqual(calc2.AddNumbers(input), output);
         }
 
         [TestCase("1,5000", "1+5000 = 5001")]
         [TestCase("1,6000", "1+6000 = 6001")]
-        public void Adding_Two_Numbers_With_UpperBound(string input, string output)
+        public void Adding_Numbers_With_UpperBound(string input, string output)
         {
             Assert.AreEqual(calc3.AddNumbers(input), output);
         }
@@ -105,7 +105,7 @@ namespace Calculator.Tests
         [TestCase("//#\n2#5", "2-5 = -3")]
         [TestCase("//#\n2#5#7,9", "2-5-7-9 = -19")]
         [TestCase("//[|||||]\n4\n5|||||9|||||10,7\n3|||||8", "4-5-9-10-7-3-8 = -38")]
-        public void Subtracting_Two_Numbers(string input, string output)
+        public void Subtracting_Numbers(string input, string output)
         {
             Assert.AreEqual(calc2.SubtractNumbers(input), output);
         }
@@ -119,7 +119,7 @@ namespace Calculator.Tests
         [TestCase("//#\n2#5", "2*5 = 10")]
         [TestCase("//#\n2#5#7,9", "2*5*7*9 = 630")]
         [TestCase("//[|||||]\n4\n5|||||9|||||10,7\n3|||||8", "4*5*9*10*7*3*8 = 302400")]
-        public void Multiplying_Two_Numbers(string input, string output)
+        public void Multiplying_Numbers(string input, string output)
         {
             Assert.AreEqual(calc2.MultiplyNumbers(input), output);
         }
@@ -132,7 +132,7 @@ namespace Calculator.Tests
         [TestCase("//#\n10#5", "10/5 = 2")]
         [TestCase("//#\n40#5#4,2", "40/5/4/2 = 1")]
         [TestCase("//[|||||]\n100\n5|||||2|||||5,2", "100/5/2/5/2 = 1")]
-        public void  Dividing_Two_Numbers(string input, string output)
+        public void  Dividing_Numbers(string input, string output)
         {
             Assert.AreEqual(calc2.DivideNumbers(input), output);
         }
